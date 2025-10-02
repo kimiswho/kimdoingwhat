@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffc2d4 0%, #ffb3c6 100%);
+            font-family: 'Courier New', monospace;
+            cursor: url('cursor.png'), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGGSURBVFhH7ZZBTsJAFIb/KQvixoS4d+MJPIEn8AQewRN4Ak/gCTyBR/AE3sATuHHjxoWJS0IIv/MmDLEznWmnbYx/8mXSl5n3vc5MX4cQ/wJJkjwnSfLiOM5Tt9tdz+fz1Wq1+uh2u5s0Td/wfovP7/V6H7PZ7BXvP9br9Qfez2azl/l8vkqS5Nl13Y/pdPqO9z/wfoPP9zzv8zAej4d4/4P3m+l0+o73v0aj0RA+v9/v/8Hn+77/OR6PR/D5g8HgCz6/1+t94f0Wn+/7/tdkMvnE+y0+fzQaDeHz+/3+Nz5/Op1+4/0On+/7/jfeb/H5g8HgBz5/Op3+4P0On+/7/g/eb/H5o9HoFz5/Op3+4v0On+/7/i/eb/H5g8HgDz5/Op3+4f0On+/7/h/eb/H5o9HoHz5/Op3+4/0On+/7/j/eb/H5g8HgHz5/Op3+4/0On+/7/j/eb/H5o9HoHz5/Op3+4/0On+/7/j/eb/H5g8HgHz5/Op3+4/0On+/7/j/eb/H5/wFCHAG4pY0CvAAAAABJRU5ErkJggg=='), auto;
+        }
+        
+        * {
+            cursor: url('cursor.png'), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGGSURBVFhH7ZZBTsJAFIb/KQvixoS4d+MJPIEn8AQewRN4Ak/gCTyBR/AE3sATuHHjxoWJS0IIv/MmDLEznWmnbYx/8mXSl5n3vc5MX4cQ/wJJkjwnSfLiOM5Tt9tdz+fz1Wq1+uh2u5s0Td/wfovP7/V6H7PZ7BXvP9br9Qfez2azl/l8vkqS5Nl13Y/pdPqO9z/wfoPP9zzv8zAej4d4/4P3m+l0+o73v0aj0RA+v9/v/8Hn+77/OR6PR/D5g8HgCz6/1+t94f0Wn+/7/tdkMvnE+y0+fzQaDeHz+/3+Nz5/Op1+4/0On+/7/jfeb/H5g8HgBz5/Op3+4P0On+/7/g/eb/H5g8HgFz5/Op3+4v0On+/7/i/eb/H5o9HoFz5/Op3+4v0On+/7/i/eb/H5g8HgDz5/Op3+4f0On+/7/h/eb/H5o9HoHz5/Op3+4/0On+/7/j/eb/H5g8HgHz5/Op3+4/0On+/7/j/eb/H5o9HoHz5/Op3+4/0On+/7/j/eb/H5/wFCHAG4pY0CvAAAAABJRU5ErkJggg=='), auto;
+        }
+
+        .falling-image {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 9999;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .for-leah {
+            font-size: 2rem;
+            color: #c41e5a;
+            margin-bottom: 20px;
+            font-weight: normal;
+            border-right: 4px solid #c41e5a;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing-title 3s steps(8) infinite, blink-title 0.75s step-end infinite;
+            width: 0;
+            display: inline-block;
+        }
+
+        .typewriter {
+            font-size: 3rem;
+            color: #d63384;
+            border-right: 4px solid #d63384;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3s steps(10) infinite, blink 0.75s step-end infinite;
+            width: 0;
+            display: inline-block;
+            font-weight: normal;
+        }
+
+        @keyframes typing {
+            0%, 100% {
+                width: 0;
+            }
+            50%, 90% {
+                width: 10ch;
+            }
+        }
+
+        @keyframes typing-title {
+            0%, 100% {
+                width: 0;
+            }
+            50%, 90% {
+                width: 8ch;
+            }
+        }
+
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #d63384;
+            }
+        }
+
+        @keyframes blink-title {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #c41e5a;
+            }
+        }
+
+        .volume-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .volume-control:not(:hover) .volume-slider {
+            width: 0;
+            opacity: 0;
+            margin: 0;
+        }
+
+        .volume-control:hover .volume-slider {
+            width: 150px;
+            opacity: 1;
+        }
+
+        .volume-control button {
+            background: #d63384;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 1.2rem;
+            width: 50px;
+            height: 50px;
+        }
+
+        .volume-control button:hover {
+            background: #c41e5a;
+        }
+
+        .volume-slider {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop autoplay>
+        <source src="nothing.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <div class="for-leah">For Leah,</div>
+        <div class="typewriter">I Love You.</div>
+    </div>
+
+    <div class="volume-control">
+        <button id="toggleMusic">🔊</button>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider">
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const toggleBtn = document.getElementById('toggleMusic');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        music.volume = 0.5;
+        
+        // Try to autoplay on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            music.play().catch(function() {
+                // If autoplay is blocked, user needs to click play button
+                toggleBtn.textContent = '🔇';
+            });
+        });
+        
+        // Also try to play on first user interaction
+        document.body.addEventListener('click', function() {
+            if (music.paused) {
+                music.play();
+                toggleBtn.textContent = '🔊';
+            }
+        }, { once: true });
+        
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (music.paused) {
+                music.play();
+                toggleBtn.textContent = '🔊';
+            } else {
+                music.pause();
+                toggleBtn.textContent = '🔇';
+            }
+        });
+        
+        volumeSlider.addEventListener('input', function() {
+            music.volume = this.value / 100;
+        });
+
+        // Falling images effect
+        function createFallingImage() {
+            const img = document.createElement('img');
+            img.src = 'cursor.png';
+            img.className = 'falling-image';
+            img.style.left = Math.random() * 100 + '%';
+            img.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(img);
+            
+            img.addEventListener('animationend', function() {
+                img.remove();
+            });
+        }
+
+        // Create falling images every 500ms
+        setInterval(createFallingImage, 500);
+    </script>
+</body>
+</html>
