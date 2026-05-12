@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ballsy — Stealth. Learn. Escape.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+
+<!-- ═══ CINEMATIC INTRO ═══ -->
+<div id="intro">
+  <div class="intro-grid"></div>
+  <div class="i-orb i-orb1"></div>
+  <div class="i-orb i-orb2"></div>
+  <div id="intro-lines">
+    <div class="il1">STEALTH.</div>
+    <div class="il2">LEARN.</div>
+  </div>
+  <div id="intro-card-wrap">
+    <div class="icard" id="icard">
+      <div class="icard-sheen" id="icard-sheen"></div>
+      <div class="icard-inner">
+        <div class="icard-left" id="il">
+          <div class="icard-badge-pill"><span class="pill-dot"></span>Unity 2022 · Windows · APU Capstone</div>
+          <h2>The math class<br>you'll actually want<br>to attend.</h2>
+          <p>Navigate school halls, dodge the teacher's spotlight, and solve arithmetic challenges to unlock your escape.</p>
+        </div>
+        <div class="icard-center" id="ic">
+          <div class="mini-screen phone-float">
+            <div class="ms-hud"><span style="color:#f43f5e">♥♥♥</span><span style="color:#10B981;font-size:10px">240 pts</span></div>
+            <div class="ms-map">
+              <div class="ms-wall" style="top:18%;left:8%;width:55px;height:10px"></div>
+              <div class="ms-wall" style="top:18%;left:8%;width:10px;height:50px"></div>
+              <div class="ms-spotlight"></div>
+              <div class="ms-teacher">T</div>
+              <div class="ms-player">P</div>
+              <div class="ms-item">📋</div>
+            </div>
+            <div class="ms-quiz">
+              <div class="ms-q">8 × 7 = ?</div>
+              <div class="ms-opts">
+                <span>48</span><span class="ms-correct">56 ✓</span><span>64</span><span>42</span>
+              </div>
+            </div>
+          </div>
+          <div class="intro-fbadge" style="top:8%;left:-20px">
+            <span>🎯</span><div><div class="fb-t">Quiz Streak</div><div class="fb-s">7 correct!</div></div>
+          </div>
+          <div class="intro-fbadge" style="bottom:10%;right:-20px">
+            <span>⚡</span><div><div class="fb-t">Level Up!</div><div class="fb-s">Stage 2 unlocked</div></div>
+          </div>
+        </div>
+        <div class="icard-right" id="ir"><div class="brand-text">BALLSY</div></div>
+      </div>
+      <div class="icard-cta" id="icta">
+        <div class="icta-title">Ready to outsmart<br>the teacher?</div>
+        <div class="icta-sub">A 2D stealth adventure where every math answer is your key to freedom.</div>
+        <button class="btn-green" id="btn-enter">Play Now</button>
+      </div>
+    </div>
+  </div>
+  <button id="intro-skip">Skip ↓</button>
+</div>
+
+<!-- ═══ GAME WRAPPER ═══ -->
+<div id="game-wrap" class="hidden">
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hud-left">
+      <div id="hud-stage">Stage 1</div>
+      <div id="hud-lives" class="hud-row"></div>
+      <div class="hud-row hud-label">STAMINA
+        <div id="hud-stamina-track"><div id="hud-stamina-fill"></div></div>
+      </div>
+      <div class="hud-row hud-label">DETECTION
+        <div id="hud-det-track"><div id="hud-det-fill"></div></div>
+      </div>
+    </div>
+    <div id="hud-center">
+      <div class="hud-big" id="hud-score">0</div>
+      <div class="hud-label">SCORE</div>
+    </div>
+    <div id="hud-right">
+      <div class="hud-row hud-label">QUIZZES <span id="hud-quizzes">0/0</span></div>
+      <div class="hud-row hud-label">COINS <span id="hud-coins">0</span></div>
+      <div id="hud-inv" class="hud-row"></div>
+      <div class="hud-row" style="gap:6px;margin-top:2px;">
+        <button class="hud-ctrl-btn" id="btn-hud-pause" title="Pause (Esc)">II</button>
+        <button class="hud-ctrl-btn" id="btn-hud-restart" title="Restart Stage">↺</button>
+        <button class="hud-ctrl-btn" id="btn-hud-home" title="Main Menu">⌂</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas -->
+  <canvas id="gameCanvas" width="800" height="576"></canvas>
+
+  <!-- ── SCREENS ── -->
+
+  <!-- Main Menu -->
+  <div id="screen-menu" class="screen overlay-center">
+    <div class="menu-card">
+      <div class="menu-logo"><span class="logo-dot"></span>BALLSY</div>
+      <div class="menu-sub">Stealth. Learn. Escape.</div>
+      <button class="btn-green big" id="btn-play">▶ &nbsp;Play Game</button>
+      <button class="btn-ghost big" id="btn-lb">🏆 &nbsp;Leaderboard</button>
+      <div class="menu-controls">
+        <div class="ctrl-grid">
+          <span class="ctrl-key">WASD / ↑↓←→</span><span>Move</span>
+          <span class="ctrl-key">Shift</span><span>Run (drains stamina)</span>
+          <span class="ctrl-key">E</span><span>Interact with panels</span>
+          <span class="ctrl-key">Space</span><span>Jumping rope</span>
+          <span class="ctrl-key">Esc</span><span>Close popups</span>
+        </div>
+      </div>
+      <div class="menu-tip">🟢 = You &nbsp;|&nbsp; 🟡 = Teacher &nbsp;|&nbsp; <span style="color:#10B981">?</span> = Quiz panel &nbsp;|&nbsp; 🚪 = Exit (solve quizzes first!)</div>
+    </div>
+  </div>
+
+  <!-- Quiz overlay -->
+  <div id="screen-quiz" class="screen overlay-center hidden">
+    <div class="quiz-card">
+      <div class="quiz-header">
+        <span class="quiz-icon">🧮</span>
+        <span class="quiz-title">Math Challenge</span>
+        <span id="quiz-timer" class="hidden quiz-timer"></span>
+      </div>
+      <div id="quiz-question" class="quiz-q"></div>
+      <div id="quiz-options" class="quiz-opts-grid"></div>
+      <div class="quiz-hint">Solve it to unlock the panel &nbsp;·&nbsp; Wrong = −50 pts &amp; −1 life</div>
+    </div>
+  </div>
+
+  <!-- Vending machine overlay -->
+  <div id="screen-vend" class="screen overlay-center hidden">
+    <div class="vend-card">
+      <div class="vend-header">🥤 Vending Machine</div>
+      <div class="vend-coins-row">Your coins: <strong id="vend-coins">0</strong></div>
+      <div class="vend-items">
+        <div class="vend-item-row">
+          <span>⚡ Refill Stamina</span>
+          <button class="btn-green small vend-item" data-item="stamina" data-cost="10" data-effect="stamina">10 coins</button>
+        </div>
+        <div class="vend-item-row">
+          <span>❤️ Extra Life</span>
+          <button class="btn-green small vend-item" data-item="life" data-cost="30" data-effect="life">30 coins</button>
+        </div>
+        <div class="vend-item-row">
+          <span>⭐ Score Boost +200</span>
+          <button class="btn-green small vend-item" data-item="score" data-cost="20" data-effect="score">20 coins</button>
+        </div>
+      </div>
+      <div id="vend-msg" class="vend-msg"></div>
+      <button class="btn-ghost small" id="btn-close-vend">Close (Esc)</button>
+    </div>
+  </div>
+
+  <!-- Jumping rope overlay -->
+  <div id="screen-rope" class="screen overlay-center hidden">
+    <div class="rope-card">
+      <div class="rope-header">🪢 Jumping Rope Mini-game</div>
+      <div class="rope-sub">Press <kbd>Space</kbd> when the dot lights up green!</div>
+      <canvas id="rope-canvas" width="160" height="160"></canvas>
+      <div class="rope-stats">
+        <div>Hits: <strong id="rope-progress">0 / 8</strong></div>
+        <div>Misses: <span id="rope-miss">⬜⬜⬜</span></div>
+      </div>
+      <div id="rope-result" class="rope-result"></div>
+    </div>
+  </div>
+
+  <!-- Level complete -->
+  <div id="screen-levelcomplete" class="screen overlay-center hidden">
+    <div class="result-card">
+      <div class="result-title">Stage Complete</div>
+      <div class="result-name" id="lc-name"></div>
+      <div class="result-stats">
+        <div class="rs-row"><span>Score</span><strong id="lc-score">0</strong></div>
+        <div class="rs-row"><span>Quizzes Solved</span><strong id="lc-quizzes">0/0</strong></div>
+        <div class="rs-row"><span>Items Collected</span><strong id="lc-items">0</strong></div>
+      </div>
+      <div class="result-btns">
+        <button class="btn-green big" id="btn-next-level">Next Stage ▶</button>
+        <button class="btn-ghost big" id="btn-menu-go">Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game over -->
+  <div id="screen-gameover" class="screen overlay-center hidden">
+    <div class="result-card">
+      <div class="result-title go-title">Game Over</div>
+      <div class="result-stats">
+        <div class="rs-row"><span>Final Score</span><strong id="go-score">0</strong></div>
+        <div class="rs-row"><span>Reached</span><strong id="go-level">Stage 1</strong></div>
+      </div>
+      <div class="go-name-row">
+        <input id="go-name" type="text" placeholder="Enter your name" maxlength="12">
+        <button class="btn-green" id="btn-submit-score">Submit Score</button>
+      </div>
+      <div class="result-btns">
+        <button class="btn-ghost big" id="btn-retry">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Difficulty Select -->
+  <div id="screen-diff" class="screen overlay-center hidden">
+    <div class="diff-card">
+      <div class="diff-title">Choose Difficulty</div>
+      <div class="diff-sub">Affects teacher speed, detection range &amp; quiz timing on every stage</div>
+      <button class="btn-diff easy" id="btn-diff-easy">
+        <div class="diff-name">Easy</div>
+        <div class="diff-desc">Slower teachers · Extra life · Relaxed detection</div>
+      </button>
+      <button class="btn-diff medium" id="btn-diff-medium">
+        <div class="diff-name">Medium</div>
+        <div class="diff-desc">Balanced challenge · Standard rules</div>
+      </button>
+      <button class="btn-diff hard" id="btn-diff-hard">
+        <div class="diff-name">Hardcore</div>
+        <div class="diff-desc">Fast teachers · Timed quizzes · Only 2 lives</div>
+      </button>
+      <button class="btn-ghost" id="btn-diff-back">← Back to Menu</button>
+    </div>
+  </div>
+
+  <!-- Pause -->
+  <div id="screen-pause" class="screen overlay-center hidden">
+    <div class="pause-card">
+      <div class="pause-title">Paused</div>
+      <div class="pause-stage" id="pause-stage-name"></div>
+      <button class="btn-green big" id="btn-resume">▶ Resume</button>
+      <button class="btn-ghost big" id="btn-restart-pause">🔄 Restart Stage</button>
+      <button class="btn-ghost big" id="btn-home-pause">🏠 Main Menu</button>
+    </div>
+  </div>
+
+  <!-- Leaderboard -->
+  <div id="screen-leaderboard" class="screen overlay-center hidden">
+    <div class="lb-card">
+      <div class="lb-title">Leaderboard</div>
+      <div class="lb-header-row">
+        <span>Rank</span><span>Name</span><span>Score</span><span>Stage</span><span>Date</span>
+      </div>
+      <div id="lb-table"></div>
+      <button class="btn-ghost big" id="btn-back-lb">← Back</button>
+    </div>
+  </div>
+
+</div><!-- /#game-wrap -->
+
+<script src="js/game.js"></script>
+<script>
+// ─── CINEMATIC INTRO ───
+(function(){
+  const il1=document.querySelector('.il1'),il2=document.querySelector('.il2');
+  const ilines=document.getElementById('intro-lines');
+  const icardWrap=document.getElementById('intro-card-wrap');
+  const icard=document.getElementById('icard');
+  const il=document.getElementById('il'),ic=document.getElementById('ic'),ir=document.getElementById('ir');
+  const icta=document.getElementById('icta');
+  const sheen=document.getElementById('icard-sheen');
+  let done=false;
+
+  function finish(){
+    if(done)return;done=true;
+    icard.style.width='100vw';icard.style.height='100vh';
+    icard.style.maxWidth='100vw';icard.style.borderRadius='0';
+    setTimeout(()=>{
+      document.getElementById('intro').style.transition='opacity .6s';
+      document.getElementById('intro').style.opacity='0';
+      setTimeout(()=>{
+        document.getElementById('intro').style.display='none';
+        document.getElementById('game-wrap').classList.remove('hidden');
+        window._startGame();
+      },600);
+    },900);
+  }
+
+  document.getElementById('btn-enter').onclick=finish;
+  document.getElementById('intro-skip').onclick=finish;
+  document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')finish();});
+  document.addEventListener('mousemove',e=>{
+    const r=icard.getBoundingClientRect();
+    sheen.style.setProperty('--sx',(e.clientX-r.left)+'px');
+    sheen.style.setProperty('--sy',(e.clientY-r.top)+'px');
+  });
+
+  // Phase 1
+  setTimeout(()=>{il1.style.opacity='1';il1.style.transform='translateY(0) scale(1)';},300);
+  setTimeout(()=>{il2.style.clipPath='inset(0 0% 0 0)';},1000);
+  // Fade taglines
+  setTimeout(()=>{ilines.style.transition='opacity .6s';ilines.style.opacity='0';},2600);
+  // Card rises
+  setTimeout(()=>{
+    icardWrap.style.pointerEvents='all';
+    icard.style.transform='translateY(0)';icard.style.opacity='1';
+  },3000);
+  // Content slides in
+  setTimeout(()=>{
+    il.style.opacity='1';il.style.transform='translateX(0)';
+    ic.style.opacity='1';ic.style.transform='translateY(0) scale(1)';
+    ir.style.opacity='1';ir.style.transform='translateX(0)';
+  },3600);
+  // CTA
+  setTimeout(()=>{
+    il.style.transition='opacity .4s';il.style.opacity='0';
+    ic.style.transition='opacity .4s';ic.style.opacity='0';
+    ir.style.transition='opacity .4s';ir.style.opacity='0';
+  },5600);
+  setTimeout(()=>{icta.style.opacity='1';icta.style.pointerEvents='all';},6000);
+})();
+</script>
+</body>
+</html>

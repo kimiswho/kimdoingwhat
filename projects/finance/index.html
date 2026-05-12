@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Planner — notkim.site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../../index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </a>
+    <span class="nav-title">Finance <em>Planner</em></span>
+    <div class="currency-row">
+      <div class="currency-field">
+        <label>Base</label>
+        <div class="fluid-dd fluid-dd--sm" id="baseDd">
+          <button type="button" class="fd-trigger fd-trigger--sm" id="baseTrigger" aria-expanded="false" aria-haspopup="listbox">
+            <span class="fd-trigger-label" id="baseTriggerLabel">USD</span>
+            <span class="fd-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="fd-menu fd-menu--sm" id="baseMenu" role="listbox" aria-label="Base currency">
+            <div class="fd-search-wrap"><input class="fd-search" id="baseSearch" placeholder="Search currency…" autocomplete="off" spellcheck="false"></div>
+            <div class="fd-body fd-body--sm" id="baseBody"></div>
+          </div>
+        </div>
+      </div>
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div class="currency-field">
+        <label>Display as</label>
+        <div class="fluid-dd fluid-dd--sm" id="dispDd">
+          <button type="button" class="fd-trigger fd-trigger--sm" id="dispTrigger" aria-expanded="false" aria-haspopup="listbox">
+            <span class="fd-trigger-label" id="dispTriggerLabel">USD</span>
+            <span class="fd-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="fd-menu fd-menu--sm" id="dispMenu" role="listbox" aria-label="Display currency">
+            <div class="fd-search-wrap"><input class="fd-search" id="dispSearch" placeholder="Search currency…" autocomplete="off" spellcheck="false"></div>
+            <div class="fd-body fd-body--sm" id="dispBody"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </nav>
+
+  <div class="rate-bar" id="rateBar">Fetching live exchange rates…</div>
+
+  <main class="main">
+
+    <!-- Overview stats -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Monthly Budget</span>
+          <button class="stat-edit" id="editBudgetBtn">Edit</button>
+        </div>
+        <p class="stat-value" id="statBudget">Not set</p>
+      </div>
+      <div class="stat-card stat-card--spent">
+        <div class="stat-top"><span class="stat-label">Spent This Month</span></div>
+        <p class="stat-value" id="statSpent">—</p>
+      </div>
+      <div class="stat-card stat-card--remaining">
+        <div class="stat-top"><span class="stat-label">Remaining</span></div>
+        <p class="stat-value" id="statRemaining">—</p>
+        <p class="stat-note" id="statNote"></p>
+      </div>
+    </section>
+
+    <!-- Progress bar -->
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-labels">
+        <span id="progressPct">—</span>
+        <span id="progressMonth"></span>
+      </div>
+    </div>
+
+    <!-- Add form + categories -->
+    <div class="content-grid">
+
+      <section class="card">
+        <h2 class="card-title">Add Expense</h2>
+        <form id="txForm" novalidate>
+          <div class="field">
+            <label for="txAmount">Amount <span class="field-note" id="fieldCurrLabel"></span></label>
+            <input type="number" id="txAmount" min="0.01" step="0.01" placeholder="0.00" required>
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <div class="fluid-dd" id="catDropdown">
+              <button type="button" class="fd-trigger" id="catTrigger" aria-expanded="false" aria-haspopup="listbox">
+                <span class="fd-trigger-inner">
+                  <span class="fd-trigger-icon" id="catTriggerIcon"></span>
+                  <span class="fd-trigger-label fd-placeholder" id="catTriggerLabel">Select a category…</span>
+                </span>
+                <span class="fd-chevron">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </span>
+              </button>
+              <div class="fd-menu" id="catMenu" role="listbox" aria-label="Category">
+                <div class="fd-body" id="catBody">
+                  <div class="fd-highlight" id="catHighlight"></div>
+                </div>
+              </div>
+              <input type="hidden" id="txCat" name="txCat">
+            </div>
+          </div>
+          <div class="field">
+            <label for="txDesc">Description <span class="opt">(optional)</span></label>
+            <input type="text" id="txDesc" placeholder="e.g. Lunch at Noodle Bar" maxlength="100">
+          </div>
+          <div class="field">
+            <label for="txDate">Date</label>
+            <input type="date" id="txDate" required>
+          </div>
+          <button type="submit" class="submit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Expense
+          </button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">By Category <span class="card-sub" id="catMonth"></span></h2>
+        <div id="catList" class="cat-list"></div>
+      </section>
+
+    </div>
+
+    <!-- Transaction history -->
+    <section class="card">
+      <div class="tx-header">
+        <h2 class="card-title">Transactions</h2>
+        <select class="month-sel" id="monthSel"></select>
+      </div>
+      <div id="txList" class="tx-list"></div>
+    </section>
+
+  </main>
+
+  <!-- Budget modal -->
+  <div class="modal-overlay hidden" id="budgetModal">
+    <div class="modal">
+      <h3 class="modal-title">Monthly Budget</h3>
+      <p class="modal-sub">Enter your budget in <strong id="budgetCurrLabel">USD</strong></p>
+      <div class="field">
+        <input type="number" id="budgetInput" min="0" step="1" placeholder="e.g. 2000">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="cancelBudgetBtn">Cancel</button>
+        <button class="btn-primary" id="saveBudgetBtn">Save Budget</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
